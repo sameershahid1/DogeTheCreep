@@ -19,13 +19,22 @@ func _process(delta):
 		Direction.y-=1
 	if Input.is_action_pressed("move_down"):
 		Direction.y+=1
-	if Direction.length()>1:
+	if Direction.length()>0:
 		Direction=Direction.normalized()
+		$AnimatedSprite.play()
+	else:
+		$AnimatedSprite.stop()
 	position+=Direction*speed*delta
 	position.x=clamp(position.x,0,Screen_Size.x)
 	position.y=clamp(position.y,0,Screen_Size.y)
 	
-	
+	if Direction.x!=0:
+		$AnimatedSprite.animation="right"
+		$AnimatedSprite.flip_v=false
+		$AnimatedSprite.flip_h=Direction.x<0
+	elif Direction.y!=0:
+		$AnimatedSprite.animation="up"
+		$AnimatedSprite.flip_v=Direction.y>0
 	
 	
 	
