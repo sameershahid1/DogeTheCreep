@@ -20,13 +20,13 @@ margin_bottom = 720.0
 color = Color( 0.105882, 0.262745, 0.32549, 1 )
 
 [node name="MobPath" type="Path2D" parent="."]
+scale = Vector2( 0.998058, 1 )
 curve = SubResource( 1 )
 
 [node name="MobSpanLocation" type="PathFollow2D" parent="MobPath"]
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
-autostart = true
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 240, 333 )
@@ -35,4 +35,10 @@ position = Vector2( 240, 333 )
 
 [node name="ScoreTimer" type="Timer" parent="."]
 
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
