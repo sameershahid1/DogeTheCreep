@@ -1,5 +1,7 @@
 extends Area2D
 
+signal hit
+
 #Player Movement Speed
 export var speed=400.0
 var Screen_Size=Vector2.ZERO
@@ -7,7 +9,6 @@ var Screen_Size=Vector2.ZERO
 func _ready():
 #Getting the Screen Size
 	Screen_Size=get_viewport_rect().size
-	print(Screen_Size)
 
 func _process(delta):
 	var Direction=Vector2.ZERO
@@ -42,20 +43,19 @@ func _process(delta):
 		$AnimatedSprite.animation="up"
 		#The fliping is used for when we are moving up in y-axis
 		$AnimatedSprite.flip_v=Direction.y>0
+
+func start(new_position):
+	position=new_position
+	show()
+	$CollisionShape2D.disabled=false
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+#It will check whather player body was touch by the Enemy body, if it was touch the player node will be Distroyed.
+func _on_Player_body_entered(body):
+	hide()
+#Safe Method to change the node Property
+	$CollisionShape2D.set_deferred("disabled",true)
+	emit_signal("hit")
 
 
 
