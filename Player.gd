@@ -9,6 +9,7 @@ var Screen_Size=Vector2.ZERO
 func _ready():
 #Getting the Screen Size
 	Screen_Size=get_viewport_rect().size
+	hide()
 
 func _process(delta):
 	var Direction=Vector2.ZERO

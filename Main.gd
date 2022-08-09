@@ -5,8 +5,12 @@ var score=0
 
 #When this function is called the ScoreTime is started
 func new_game():
+	$GameOver.stop()
+	$Music.play()
 	score=0
 	$HUD.update_score(score)
+	get_tree().call_group("mobs","queue_free")
+	$Player.start($PlayerPosition.position)
 	$StartTimer.start()
 	$HUD.show_message("Get ready.......")
 	yield($StartTimer,"timeout")#Unitl the StartTimer passed 2 seconds the game will not be started
@@ -18,6 +22,8 @@ func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
+	$Music.stop()
+	$GameOver.play()
 
 func ready():
 	randomize()
