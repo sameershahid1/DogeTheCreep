@@ -1,16 +1,17 @@
 extends Area2D
 
-#This controls the Game Player Speed
+#Player Movement Speed
 export var speed=400.0
 var Screen_Size=Vector2.ZERO
 
 func _ready():
+#Getting the Screen Size
 	Screen_Size=get_viewport_rect().size
 	print(Screen_Size)
 
 func _process(delta):
 	var Direction=Vector2.ZERO
-	#Setting the Player Movement
+	#Player Movement
 	if Input.is_action_pressed("move_right"):
 		Direction.x+=1
 	if Input.is_action_pressed("move_left"):
@@ -19,21 +20,27 @@ func _process(delta):
 		Direction.y-=1
 	if Input.is_action_pressed("move_down"):
 		Direction.y+=1
+	
 	if Direction.length()>0:
 		Direction=Direction.normalized()
 		$AnimatedSprite.play()
 	else:
 		$AnimatedSprite.stop()
 	position+=Direction*speed*delta
-	position.x=clamp(position.x,0,Screen_Size.x)
-	position.y=clamp(position.y,0,Screen_Size.y)
+	position.x=clamp(position.x,0,Screen_Size.x)#Limiting the position.x between 0 to Screen_size.x
+	position.y=clamp(position.y,0,Screen_Size.y)#Limiting the position.y between 0 to Screen_size.y
 	
+	#The animation will be played according to these conditions
 	if Direction.x!=0:
+		#Setting the animation Left and Right
 		$AnimatedSprite.animation="right"
 		$AnimatedSprite.flip_v=false
+		#The fliping is used for when we are moving left in x-axis
 		$AnimatedSprite.flip_h=Direction.x<0
 	elif Direction.y!=0:
+	   #Setting the animation UP and Down
 		$AnimatedSprite.animation="up"
+		#The fliping is used for when we are moving up in y-axis
 		$AnimatedSprite.flip_v=Direction.y>0
 	
 	
